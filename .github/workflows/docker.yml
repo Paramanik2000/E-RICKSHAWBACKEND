@@ -1,14 +1,30 @@
-- name: Debug – show workspace
-  run: |
-    pwd
-    ls -l
-    find . -iname "dockerfile"
+name: Docker CI
 
-- name: Build Docker image
-  run: |
-    docker build \
-      --no-cache \
-      --progress=plain \
-      -f $GITHUB_WORKSPACE/Dockerfile \
-      -t erickshaw-backend \
-      $GITHUB_WORKSPACE
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Debug – show workspace
+        run: |
+          pwd
+          ls -l
+          find . -iname "dockerfile"
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --no-cache \
+            --progress=plain \
+            -f $GITHUB_WORKSPACE/Dockerfile \
+            -t erickshaw-backend \
+            $GITHUB_WORKSPACE
