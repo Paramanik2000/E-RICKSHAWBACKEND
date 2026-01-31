@@ -45,7 +45,7 @@ def register(data: UserRegister, db: Session = Depends(get_db)):
 def login(data: UserLogin, db: Session = Depends(get_db)):
     user = authenticate_user(db, data.email, data.password)
     token = create_token(user.id)
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "token_type": "bearer","user_id": user.id,"email": user.email}
 
 @router.post("/{user_id}/verify-email")
 def email_verify(user_id: int, db: Session = Depends(get_db)):
